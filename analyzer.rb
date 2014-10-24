@@ -17,6 +17,16 @@ class Analyzer
     @user      = user
     @trial     = trial
   end
+  
+  def initialize(processor, user = User.new, trial = Trial.new)
+    raise 'Processor invalid.' unless processor.kind_of? Processor
+    raise 'User invalid.'      unless user.kind_of? User
+    raise 'Trial invalid.'     unless trial.kind_of? Trial
+
+    @processor = processor
+    @user      = user
+    @trial     = trial
+  end  
 
   def measure
     measure_steps
