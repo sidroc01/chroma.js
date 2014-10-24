@@ -49,5 +49,29 @@ private
   def measure_time
     @time = @processor.filtered_data.count/@trial.rate
   end
+  
+  def measure_steps
+    @steps = 0
+    count_steps = true
+
+    @processor.filtered_data.each_with_index do |data, i|
+      if (data >= THRESHOLD) && (@processor.filtered_data[i-1] < THRESHOLD)
+        next unless count_steps
+
+        @steps += 1
+        count_steps = false
+      end
+
+      count_steps = true if (data < 0) && (@processor.filtered_data[i-1] >= 0)
+    end
+  end
+
+  def measure_distance
+    @distance = @user.stride * @steps
+  end
+
+  def measure_time
+    @time = @processor.filtered_data.count/@trial.rate
+  end  
 
 end
